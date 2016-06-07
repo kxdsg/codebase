@@ -6,6 +6,6 @@ package com.argus.file;
 public class FileCrawler {
 
     public static void main(String[] args) {
-        
+
     }
 }
