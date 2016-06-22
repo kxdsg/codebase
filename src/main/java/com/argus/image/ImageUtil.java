@@ -18,6 +18,7 @@ public class ImageUtil {
      * @return
      */
     public static String encodeImg(String imgFile){
+        //FileInputStream转成byte[]
         InputStream is = null;
         byte[] data = null;
         try {
@@ -45,11 +46,6 @@ public class ImageUtil {
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             byte[] b = decoder.decodeBuffer(imgStr);
-            for(int i=0; i<b.length; i++){
-                if(b[i]<0){
-                    b[i] += 256;
-                }
-            }
             OutputStream os =  new FileOutputStream(destImg);
             os.write(b);
             os.flush();
