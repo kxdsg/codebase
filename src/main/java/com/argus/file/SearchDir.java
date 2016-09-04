@@ -24,7 +24,7 @@ public class SearchDir {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		searchDir ("D:/work/eclipseWork/eclipseProj/SaaComparison/lib", "bcpro");
+
 	}
 
 }

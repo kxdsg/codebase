@@ -201,23 +201,6 @@ public class StringUtil {
 
 
     public static void main(String[] args) throws Exception {
-//        String origStr = "test ##ruleFilePath## example";
-//
-//        origStr = origStr.replaceAll("##ruleFilePath##", "d:\\ec\\temp\\input.txt");
-
-//        origStr = origStr.replace("##ruleFilePath##", "d:\\ec\\temp\\input.txt");
-//        System.out.println(origStr);
-
-//        escapeWithSlash();
-        
-//        System.out.println(StringUtils.leftPad(String.valueOf(1), 8, '0'));
-    	String origUrl = "http://www.mas.cn/tongcheng/tongcheng/service/InfoBill.queryIndex.do?cid=95&servicecode=APP00011";
-    	int index = origUrl.indexOf("servicecode=");
-		String serviceCode = "001";
-		String url = origUrl.substring(0, index) + "servicecode=" + serviceCode;
-		System.out.println(url);
-        
-
 
 
     }

@@ -42,6 +42,6 @@ public class ExecUtil {
 
 
     public static void main(String argv[]) {
-        execCommand("D:\\work\\eclipseWork\\eclipseProj\\SaaComparison\\bin\\com", "D:\\work\\decompiler\\jad.exe D:\\work\\eclipseWork\\eclipseProj\\SaaComparison\\bin\\com\\LoggerUtil.class ");
+
     }
 }
