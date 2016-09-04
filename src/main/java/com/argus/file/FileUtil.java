@@ -1227,51 +1227,7 @@ public class FileUtil {
 
 	public static void main(String[] args) throws Exception {
 
-		// System.out.println(captureCmdScreenContent("cmd /c dir c:\\JavaCAPS6\\"));
-		// zip("Archive.zip");
-		 FileUtil.recursiveDelete("D:/马鞍山项目/资源聚集平台开发/developer_pro",
-		 ".svn");
-		//
-		// String basedir = "D:/Workspace/SAA2G/reject";
-		// System.out.println(generateDependency(basedir + "/lib", basedir));
-		// listFilesAndFolders("C:\\");
 
-		// List backupList =
-		// convertFileContentToList("d:/workspace/backupdate.txt", true);
-		// List newList =
-		// convertFileContentToList("d:/workspace/tbl_code_int.sql", false);
-		// CollectionUtil.printList(newList);
-		// boolean b = CollectionUtil.compareList(backupList, newList);
-		// System.out.println(b);
-		// List list =
-		// listFilesAndFoldersAndSaveToList("D:\\Workspace\\SAA2G\\threadframe\\lib");
-		// List rejectlist =
-		// listFilesAndFoldersAndSaveToList("D:\\Workspace\\SAA2G\\reject\\lib");
-		// List intersectList = ListUtils.intersection(list, rejectlist);
-		// Iterator iter = intersectList.iterator();
-		// System.out.println(list.size() + "\t" + rejectlist.size() + "\t" +
-		// intersectList.size());
-		// while (iter.hasNext()) {
-		// System.out.println(iter.next());
-		// }
-
-		// File file = new File("testdir/hello/ok.txt");
-		// if (!file.exists()) {
-		// try {
-		// if (!file.getParentFile().exists()) {
-		// System.out.println(file.getParentFile());
-		// file.getParentFile().mkdirs();
-		// }
-		// file.createNewFile();
-		// } catch (IOException e) {
-		// e.printStackTrace(); //To change body of catch statement use File |
-		// Settings | File Templates.
-		// }
-		// }
-		
-//		System.out.println(FileUtil.readLastLine(new File("data/Test.DAT")));
-		
-//		
 //		findLatestModifiedFiles("D:\\", 0);
 //		System.out.println("process done");
 		
