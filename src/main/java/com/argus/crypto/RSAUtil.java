@@ -643,7 +643,7 @@ public class RSAUtil {
 
     public static void main(String[] args) {
         try {
-            verifySignedZipFile("C:\\Documents and Settings\\caleblau\\ncs\\RM_BigFileTransfer\\samplePkg.szip", "public.key");
+            verifySignedZipFile("samplePkg.szip", "public.key");
         } catch (Exception e) {
             e.printStackTrace();
         }
