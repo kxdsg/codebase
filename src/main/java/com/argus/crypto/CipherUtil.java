@@ -17,6 +17,10 @@ public class CipherUtil {
     private static Cipher cipher = null;
     static {
     	try {
+			// parameter "DES" specifies type of cipher we want to create
+			// through the factory method. It includes algorithm, mode and
+			// padding. You can define only algorithm and in that case default
+			// values will be used for mode and padding.
 			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -174,7 +178,7 @@ public class CipherUtil {
 	}
 
 	public static void testMd5 () {
-		System.out.println (calcMD5 ("UploadMq.jar"));
+		System.out.println (calcMD5 ("d:\\test\\testface.jpg"));
 	}
 	public static void main(String[] args) {
 		//test_encrypt ();
