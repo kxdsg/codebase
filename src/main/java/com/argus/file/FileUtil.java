@@ -41,7 +41,6 @@ import com.argus.util.DateUtil;
 import com.argus.util.ExecUtil;
 import com.argus.util.LoggerUtil;
 import com.argus.util.StringUtil;
-import com.argus.crypto.CryptoUtil;
 import com.thoughtworks.xstream.XStream;
 
 /**
@@ -790,34 +789,6 @@ public class FileUtil {
 		}
 
 		return list;
-	}
-
-	public static void saveEncProp(String encPropFile, Properties prop) {
-		XStream xstream = new XStream();
-		String xstreamXml = xstream.toXML(prop);
-		byte[] encFile = CryptoUtil.encrypt(xstreamXml);
-		try {
-			saveFile(encPropFile, encFile);
-		} catch (IOException e) {
-			System.err.println("Unable to save encrypted file");
-			e.printStackTrace();
-		}
-	}
-
-	public static Properties readEncProp(String encPropFile) {
-		byte[] encFile = (byte[]) null;
-		try {
-			encFile = readFileWithStringParam(encPropFile);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			return null;
-		}
-
-		String xstreamXml = CryptoUtil.decryptString(encFile);
-
-		XStream xstream = new XStream();
-		Properties prop = (Properties) xstream.fromXML(xstreamXml);
-		return prop;
 	}
 
 	public static String getFileName(String fileLocation) {
