@@ -19,10 +19,12 @@ public class DESUtil {
     /*
     工作模式：ECB：电子密码本模式、CBC：加密分组链接模式、CFB：加密反馈模式、OFB：输出反馈模式
     填充方式：NoPadding:不填充、ZerosPadding: 0填充、PKCS5Padding
+    DES、AES 或者 3DES 属于块加密算法，一般来说原文必须是 8 的整数倍，所以块加密算法除子加密模式之外，还涉及到一个填充模式。
+    如果用 NoPadding 的话，那么必须保证原文字节是 8 的倍数，否则的话需要使用其他的填充模式。
      */
     public static final String CIPHER_ALGORITHM = "DES/ECB/PKCS5Padding";
 
-    //密钥字符串,自定义
+    //密钥字符串,自定义,长度>=8,如果长度<8,会抛出异常"Wrong key size"
     public static final String KEY = "a1!s2@d3#f4$g5%h6^j7&k8*92WWQS2123UYWY$";
 
     /**
@@ -69,7 +71,7 @@ public class DESUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String source = "i am plain text";
+        String source = "welcome 北京";
         System.out.println("加密前: " + source);
         String encryptData = encrypt(source);
         System.out.println("加密后: " + encryptData);
