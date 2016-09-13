@@ -19,7 +19,7 @@ public class HexUtil {
             if (hex.length() == 1) {
                 hex = '0' + hex;
             }
-            sb.append(hex.toUpperCase());
+            sb.append(hex.toLowerCase());
         }
         return sb.toString();
     }
