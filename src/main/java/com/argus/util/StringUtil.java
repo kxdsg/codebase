@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -185,28 +186,19 @@ public class StringUtil {
 
     }
 
-    /**
-     * the method is to illustrate the escape with slash in java
-     */
-    public static void escapeWithSlash(){
-        //original literal string "sdf\a\aa"
-        String s = "sdf\\a\\aa"; //declare the variable, append escape \ for per \ automatically
-        //replace \ with \\
-//        s = s.replace("\\", "\\\\");
-//        s = s.replaceAll("\\\\","\\\\\\\\"); // use regular expression, append one more escape \
-        System.out.println(s);
+    public static void reqparam2body(String queryString){
+        String[] params = queryString.split(Pattern.quote("&"));
+        for(String item: params){
+            String[] keyval = item.split(Pattern.quote("="));
+            if(keyval.length>1){
+                System.out.println("body.put(\""+keyval[0]+"\",\""+keyval[1]+"\");");
+            }
+        }
     }
-
-
-
 
     public static void main(String[] args) throws Exception {
-
-
+        String s = "name=a&age=10&sex=m";
+        reqparam2body(s);
     }
-    
-    
-    
-
 
 }
