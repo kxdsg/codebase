@@ -8,12 +8,19 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -78,6 +85,41 @@ public class HttpUtil {
     }
 
     /**
+     * get请求，使用最新的httpclient
+     * @param url
+     * @return
+     */
+    public static String get(String url){
+        CloseableHttpResponse response = null;
+        String result = "";
+        try {
+            //获取httpclient实例
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            //获取方法实例。GET
+            HttpGet httpGet = new HttpGet(url);
+            //执行方法得到响应
+           response = httpclient.execute(httpGet);
+            //如果正确执行而且返回值正确，即可解析
+            if (response != null && response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                //从输入流中解析结果
+                result = EntityUtils.toString(entity, "UTF-8");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(response != null){
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * post请求,使用jdk, 请求数据格式是json
      * @param url
      * @param json
@@ -120,7 +162,9 @@ public class HttpUtil {
         BufferedReader reader = null;
         String result = null;
         StringBuffer sbf = new StringBuffer();
-        httpUrl = httpUrl + "?" + httpArg;
+        if(StringUtils.isNotBlank(httpArg)){
+            httpUrl = httpUrl + "?" + httpArg;
+        }
         System.out.println(httpUrl);
 
         try {
