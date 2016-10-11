@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
+ * 使用poi进行excel文件处理
  * 导出excel文件类
  * Created by xingding on 2016/9/30.
  */

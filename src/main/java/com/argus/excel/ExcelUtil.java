@@ -9,6 +9,9 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 
+/**
+ * 使用jxl进行excel文件处理
+ */
 public class ExcelUtil {
 
 	public static void main(String[] args) throws Exception {
