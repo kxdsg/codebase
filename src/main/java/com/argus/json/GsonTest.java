@@ -22,7 +22,11 @@ public class GsonTest {
     public static void main(String[] args) {
 //        mapToJson();
 //        jsonToMap();
-        wrapResult();
+//        wrapResult();
+
+        String result = "{\"code\":0,\"message\":\"请求成功\",\"result\":{\"101010100\":\"北京\",\"101010300\":\"朝阳\"},\"status\":\"OK\"}";
+        RtnObj obj = gson.fromJson(result,RtnObj.class);
+        System.out.println(obj.getResult());
     }
 
     /**
@@ -78,10 +82,8 @@ public class GsonTest {
          System.out.println(orig); //{status=0.0, reason=, content={name=argus, age=30.0}} status,age的值都变了，错误
         */
 
-        //正确的方式
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(origJson);
-        JsonObject rootObj = element.getAsJsonObject();
+        //正确的方式,保持原有类型
+        JsonObject rootObj = new JsonParser().parse(origJson).getAsJsonObject();
         int status = rootObj.get("status").getAsInt();
         String reason = rootObj.get("reason").getAsString();
         JsonObject content = rootObj.get("content").getAsJsonObject();

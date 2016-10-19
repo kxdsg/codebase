@@ -197,8 +197,30 @@ public class StringUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String s = "name=a&age=10&sex=m";
-        reqparam2body(s);
+//        String s = "name=a&age=10&sex=m";
+//        reqparam2body(s);
+        String a = "hello";
+        String b = "hello"; //常量池
+        String c = new String("hello"); //String对象,堆
+        System.out.println(a==b); //true
+        System.out.println(a==c); //false
+        String d = "he"+"llo"; //赋值，会直接指向常量池
+        System.out.println(a==d); //true
+
+        String e = "he";
+        String f = "llo";
+        String g = e+f; //在编译阶段会被转化成StringBuilder的append操作，变量c最终指向Java堆上新建String对象
+        System.out.println(a==g);//false
+
+        final String h = "he";
+        final String i = "llo";
+        String j = h+i;
+        System.out.println(a==j); //true
+
+
+
+
+
     }
 
 }
