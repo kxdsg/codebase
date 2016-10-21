@@ -11,7 +11,8 @@ public class MarkDownUtil {
 
 	public static void main(String[] args) throws Exception{
 		//文件字段以tab分隔
-		convert("d:\\test\\text.txt");
+//		convert("d:\\test\\text.txt");
+		trick("D:\\API商店相关\\数据开放平台录入\\1数据API录入\\markdown文件");
 	}
 
 	/**
@@ -56,7 +57,12 @@ public class MarkDownUtil {
 				String fname = ef.getName();
 				System.out.println("Start to process file " + fname);
 				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(ef)));
-				FileWriter fw = new FileWriter(new File(filePath + "(new)/" + fname));
+				//输出文件夹
+				File outputFolder = new File(filePath + "(new)");
+				if(!outputFolder.exists()){
+					outputFolder.mkdir();
+				}
+				FileWriter fw = new FileWriter(new File(outputFolder + "/" + fname));
 				while((lineFeed=br.readLine())!=null){
 					if("*\t**名称 | 必填 |\t数据类型 | 说明**".equals(lineFeed.trim())){
 						fw.write("|   名称 | 必填 |\t数据类型 | 说明 |");
@@ -66,7 +72,7 @@ public class MarkDownUtil {
 						fw.write("|   名称 |  数据类型 | 说明 |");
 						fw.write(crlf);
 						fw.write("|   :---: |  :---: | :---:   |");
-					} else if(lineFeed.trim().startsWith("*\t")){
+					} else if(lineFeed.trim().startsWith("*\t") || lineFeed.trim().startsWith("*   ")){
 						fw.write(lineFeed.replace("*","|"));
 					} else {
 						fw.write(lineFeed);
@@ -74,6 +80,7 @@ public class MarkDownUtil {
 					fw.write(crlf);
 				}
 				fw.flush();
+				fw.close();
 			}
 
 		} else {
