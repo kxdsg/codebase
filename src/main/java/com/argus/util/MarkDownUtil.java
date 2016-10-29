@@ -11,8 +11,8 @@ public class MarkDownUtil {
 
 	public static void main(String[] args) throws Exception{
 		//文件字段以tab分隔
-//		convert("d:\\test\\text.txt");
-		trick("D:\\API商店相关\\数据开放平台录入\\1数据API录入\\markdown文件");
+		convert("d:\\test\\text.txt");
+//		trick("D:\\API商店相关\\数据开放平台录入\\1数据API录入\\markdown文件");
 	}
 
 	/**
@@ -26,7 +26,11 @@ public class MarkDownUtil {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filePath))));
 			while ((lineFeed = br.readLine()) != null) {
 				String[] a = lineFeed.split(tab);
-				System.out.println(prefix + a[0] + sep + a[1] + sep + a[2]);
+				StringBuilder sb = new StringBuilder();
+				for(String item:a){
+					sb.append(sep).append(item);
+				}
+				System.out.println(sb.toString());
 			}
 
 		} catch (Exception e) {
