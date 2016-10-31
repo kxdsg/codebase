@@ -24,8 +24,8 @@ public class DESUtil {
      */
     public static final String CIPHER_ALGORITHM = "DES/ECB/PKCS5Padding";
 
-    //密钥字符串,自定义,长度>=8,如果长度<8,会抛出异常"Wrong key size"
-    public static final String KEY = "a1!s2@d3#f4$g5%h6^j7&k8*92WWQS2123UYWY$";
+    //密钥字符串,自定义,长度=8,如果长度<8,会抛出异常"Wrong key size"
+    public static final String KEY = "1qazxsw2";
 
     /**
      * 生成密钥key对象
