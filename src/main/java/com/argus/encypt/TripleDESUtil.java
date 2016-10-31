@@ -15,14 +15,15 @@ public class TripleDESUtil {
     // 算法名称/加密模式/填充方式
     public static final String CIPHER_ALGORITHM_ECB = "DESede/ECB/PKCS5Padding";
 
+    public static final String key = "1qazxsw23edcvfr4"; //加密密钥，自定义
+
     /**
      * 3des解密
      * @param value 待解密字符串
-     * @param key 原始密钥字符串
      * @return
      * @throws Exception
      */
-    public static String decrypt3DES(String value, String key) throws Exception {
+    public static String decrypt3DES(String value) throws Exception {
         byte[] b = decryptMode(getKeyBytes(key), Base64.decode(value));
         return new String(b);
     }
@@ -30,11 +31,10 @@ public class TripleDESUtil {
     /**
      * 3des加密
      * @param value 待加密字符串
-     * @param key 原始密钥字符串
      * @return
      * @throws Exception
      */
-    public static String encrypt3DES(String value, String key) throws Exception {
+    public static String encrypt3DES(String value) throws Exception {
         String str = byte2Base64(encryptMode(getKeyBytes(key), value.getBytes()));
         return str;
     }
@@ -55,6 +55,9 @@ public class TripleDESUtil {
         int start = bkey.length;
         byte[] bkey24 = new byte[24];
         //补足24字节
+        for (int i = 0; i < start; i++) {
+            bkey24[i] = bkey[i];
+        }
         for (int i = start; i < 24; i++) {
             bkey24[i] = '\0';
         }
@@ -137,11 +140,11 @@ public class TripleDESUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String key = "1qazxsw23edcvfr4"; //加密密钥，自定义
+
         String name = "kang"; //原始字符串
-        String encodeStr = encrypt3DES(name, key);
+        String encodeStr = encrypt3DES(name);
         System.out.println("加密之后的字符串：" + encodeStr);
-        String decodeStr = decrypt3DES(encodeStr,key);
+        String decodeStr = decrypt3DES(encodeStr);
         System.out.println("解密之后的字符串:" + decodeStr);
     }
 
