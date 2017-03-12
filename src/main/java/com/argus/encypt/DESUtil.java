@@ -1,12 +1,15 @@
 package com.argus.encypt;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
@@ -25,7 +28,28 @@ public class DESUtil {
     public static final String CIPHER_ALGORITHM = "DES/ECB/PKCS5Padding";
 
     //密钥字符串,自定义,长度=8,如果长度<8,会抛出异常"Wrong key size"
-    public static final String KEY = "1qazxsw2";
+//    public static final String KEY = "1qazxsw2";
+    public static final String KEY = initKey();
+
+
+    /**
+     * 生成密钥key字符串(16进制表示)
+     * @return
+     */
+    public static String initKey() {
+        try {
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(DES);
+            keyGenerator.init(56);
+            SecretKey secretKey = keyGenerator.generateKey();
+            byte[] secretKeyBytes = secretKey.getEncoded();
+            String key = Hex.encodeHexString(secretKeyBytes);
+            System.out.println("key: " + key);
+            return key;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     /**
      * 生成密钥key对象
