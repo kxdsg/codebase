@@ -15,7 +15,7 @@ public class TripleDESUtil {
     // 算法名称/加密模式/填充方式
     public static final String CIPHER_ALGORITHM_ECB = "DESede/ECB/PKCS5Padding";
 
-    public static final String key = "1qazxsw23edcvfr4"; //加密密钥，自定义
+    public static final String key = "ed2a0c42518395c6af183e3a"; //加密密钥，自定义
 
     /**
      * 3des解密
@@ -50,8 +50,6 @@ public class TripleDESUtil {
             throw new Exception("key is null or empty!");
         }
         byte[] bkey = strKey.getBytes();
-        System.out.println("bkey.length=" + bkey.length);
-        System.out.println("bkey=" + byte2hex(bkey));
         int start = bkey.length;
         byte[] bkey24 = new byte[24];
         //补足24字节
@@ -61,8 +59,6 @@ public class TripleDESUtil {
         for (int i = start; i < 24; i++) {
             bkey24[i] = '\0';
         }
-        System.out.println("byte24key.length=" + bkey24.length);
-        System.out.println("byte24key=" + byte2hex(bkey24));
         return bkey24;
     }
 
@@ -141,7 +137,7 @@ public class TripleDESUtil {
 
     public static void main(String[] args) throws Exception {
 
-        String name = "kang"; //原始字符串
+        String name = "{\"username\":\"usera\",\"channel\":\"shuchuang\"}"; //原始字符串
         String encodeStr = encrypt3DES(name);
         System.out.println("加密之后的字符串：" + encodeStr);
         String decodeStr = decrypt3DES(encodeStr);
