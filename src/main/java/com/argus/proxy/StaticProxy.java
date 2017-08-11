@@ -2,6 +2,9 @@ package com.argus.proxy;
 
 /**
  * 静态代理类，一般不采用
+ * 1. 一个接口 Calculator
+ * 2. 一个真实实现类 CalculatorImpl
+ * 3. 一个代理类StaticProxy，持有真实类的引用
  */
 public class StaticProxy {
 	
