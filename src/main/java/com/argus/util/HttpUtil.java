@@ -9,13 +9,19 @@ import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -32,6 +38,9 @@ public class HttpUtil {
 
     private static final HttpClient client = new HttpClient();
     private static final  Gson gson = new Gson();
+    private static CloseableHttpClient httpClient = null;
+    public static final String DEFAULT_ENCODING="utf-8";
+    private static Logger logger = Logger.getLogger(HttpUtil.class);
 
     /**
      * 利用post请求上传文件,使用commons-httpclient, MultipartRequestEntity
@@ -190,5 +199,75 @@ public class HttpUtil {
         return result;
     }
 
+    public static CloseableHttpClient getHttpClient() {
+        if (httpClient == null) {
+            httpClient = HttpClients.createDefault();
+        }
+        return httpClient;
+    }
+
+    public static String doGet(String url, int httpConnectionTimeout, Header[] headers, String encoding){
+        CloseableHttpClient httpClient = HttpUtil.getHttpClient();
+        HttpGet httpget = null;
+        CloseableHttpResponse response = null;
+        try {
+            httpget = new HttpGet(url);
+
+            // 设置请求和传输超时时间
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setSocketTimeout(httpConnectionTimeout)
+                    .setConnectTimeout(httpConnectionTimeout)
+                    .build();
+
+            httpget.setConfig(requestConfig);
+
+
+            //设置http header信息
+            if(headers != null && headers.length != 0){
+                httpget.setHeaders(headers);
+            }
+
+            response = httpClient.execute(httpget);
+
+            if(encoding==null || "".equals(encoding.trim())){
+                encoding=DEFAULT_ENCODING;
+            }
+
+            return EntityUtils.toString(response.getEntity(), encoding);
+        } catch (ConnectTimeoutException e) {
+            logger.error("http connection time out", e);
+            throw new RuntimeException("http connection time out", e);
+        } catch (UnsupportedEncodingException e) {
+            logger.error("unsupported encoding exception", e);
+            throw new RuntimeException("unsupported encoding exception", e);
+        } catch (ClientProtocolException e) {
+            logger.error("client protocol exception", e);
+            throw new RuntimeException("client protocol exception", e);
+        } catch (IOException e) {
+            logger.error("io exception", e);
+            throw new RuntimeException("io exception", e);
+        }  finally {
+            try {
+                if (response != null) {
+                    response.close();
+                }
+            } catch (IOException e) {
+                logger.warn("close response error", e);
+            }
+            try {
+                if (httpget != null) {
+                    httpget.releaseConnection();
+                }
+            } catch (Exception e) {
+                logger.warn("release http connection error", e);
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        Header[] headers = new Header[]{new BasicHeader("area","900100"), new BasicHeader("user","{'name':'admin','userid':'10000'}")};
+    	String ut=HttpUtil.doGet("http://host/detail.do?id=1", 2000, headers, null);
+    	System.out.println(ut);
+    }
 
 }
