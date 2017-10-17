@@ -21,8 +21,11 @@ public class DynamicProxy {
 	}
 
 	public void testDynamicProxy() {
+		//接口实现类
 		Calculator impl = new CalculatorImpl();
+		//中介类，持有实现类
 		LogHandler handler = new LogHandler(impl);
+		//动态生成代理类
 		Calculator proxy = (Calculator) Proxy.newProxyInstance(impl.getClass().getClassLoader(),
 				impl.getClass().getInterfaces(), handler);
 
