@@ -2,22 +2,7 @@ package com.argus.file;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.RandomAccessFile;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -1203,6 +1188,15 @@ public class FileUtil {
 //		System.out.println("process done");
 		
 //		FileUtil.detectFiles("D:\\workspace");
+
+		PrintWriter pw = new PrintWriter(new File("d:\\test\\hello.txt"));
+		for(int i = 0;i<100000;i++){
+			pw.write("hello, i am test message " + i + "\n");
+		}
+		pw.flush();
+		pw.close();
+
+
 
 	}
 	
