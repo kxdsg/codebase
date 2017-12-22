@@ -1,6 +1,4 @@
-package com.argus.misc;
-
-import sun.security.krb5.internal.PAData;
+package com.argus.enummj;
 
 /**
  * Created by xingding on 2017/4/8.

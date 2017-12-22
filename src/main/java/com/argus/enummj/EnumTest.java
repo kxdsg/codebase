@@ -1,4 +1,4 @@
-package com.argus.misc;
+package com.argus.enummj;
 
 /**
  * Created by xingding on 2017/4/8.
