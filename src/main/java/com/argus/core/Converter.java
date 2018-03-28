@@ -9,5 +9,6 @@ public class Converter {
     public static void main(String[] args) {
         //转二进制
         System.out.println(Integer.toBinaryString(16));
+        System.out.println(System.getProperty("file.encoding"));
     }
 }

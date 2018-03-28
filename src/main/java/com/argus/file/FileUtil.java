@@ -304,7 +304,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * write file with FileWriter
+	 * write file with FWriter
 	 *
 	 * @param content
 	 * @param destFile

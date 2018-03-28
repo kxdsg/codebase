@@ -10,7 +10,15 @@ import java.util.Arrays;
  */
 public class StringMain {
 
+    public static void test(){
+        String str1 = "abc";
+        String str2 = new String("abc");
+        String str3 = "a" + "bc";
+        System.out.println(str1 == str3);
+    }
+
     public static void main(String[] args) {
+        test();
         final int[] values = {1,2,3};
         int[] another = {4,5,6};
 //        values = another; //编译器报错，用final修饰，编译器不允许我把value指向堆区另一个地址

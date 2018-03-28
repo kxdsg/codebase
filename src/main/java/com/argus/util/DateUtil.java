@@ -101,10 +101,12 @@ public class DateUtil {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Date start = parseDate("20140729130000","yyyyMMddHHmmss");
-		Date end = parseDate("20140729130060","yyyyMMddHHmmss");
-		long interval = end.getTime() - start.getTime();
-		System.out.println(interval);
+//		Date start = parseDate("20140729130000","yyyyMMddHHmmss");
+//		Date end = parseDate("20140729130060","yyyyMMddHHmmss");
+//		long interval = end.getTime() - start.getTime();
+//		System.out.println(interval);
+		Date date = new Date(1489934503);
+		System.out.println(date);
 	}
 
 }
