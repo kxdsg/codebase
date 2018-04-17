@@ -29,7 +29,21 @@ public class DESUtil {
 
     //密钥字符串,自定义,长度=8,如果长度<8,会抛出异常"Wrong key size"
 //    public static final String KEY = "1qazxsw2";
-    public static final String KEY = initKey();
+    public static final String KEY_STR = "adab9197924a4c85"; //用initKey()方法产生一个密钥
+
+    public static SecretKey KEY; //密钥对象
+
+    static{
+        try {
+            DESKeySpec desKeySpec = new DESKeySpec(KEY_STR.getBytes());
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(DES);
+            KEY = secretKeyFactory.generateSecret(desKeySpec);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
     /**
@@ -52,32 +66,23 @@ public class DESUtil {
     }
 
     /**
-     * 生成密钥key对象
-     * @return
-     * @throws Exception
-     */
-    public static SecretKey genKey() throws Exception{
-        DESKeySpec desKeySpec = new DESKeySpec(KEY.getBytes());
-        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(DES);
-        SecretKey secretKey = secretKeyFactory.generateSecret(desKeySpec);
-        return secretKey;
-    }
-
-    /**
      * 加密数据
      * @param data
      * @return
      * @throws Exception
      */
-    public static String encrypt(String data) throws Exception{
-        Key desKey = genKey();
-        //实例化Cipher对象,用于完成实际的加密操作
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        SecureRandom secureRandom = new SecureRandom();
-        cipher.init(Cipher.ENCRYPT_MODE, desKey, secureRandom);
-        byte[] results = cipher.doFinal(data.getBytes());
-        //加密后的结果用base64字符串传输
-        return Base64.encodeBase64String(results);
+    public static String encrypt(String data){
+        try {
+            //实例化Cipher对象,用于完成实际的加密操作
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+            SecureRandom secureRandom = new SecureRandom();
+            cipher.init(Cipher.ENCRYPT_MODE, KEY, secureRandom);
+            byte[] results = cipher.doFinal(data.getBytes());
+            //加密后的结果用base64字符串传输
+            return Base64.encodeBase64String(results);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -86,12 +91,15 @@ public class DESUtil {
      * @return
      * @throws Exception
      */
-    public static String decrypt(String data) throws Exception{
-        Key desKey = genKey();
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE,desKey);
-        byte[] results = cipher.doFinal(Base64.decodeBase64(data));
-        return new String(results);
+    public static String decrypt(String data){
+        try {
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE,KEY);
+            byte[] results = cipher.doFinal(Base64.decodeBase64(data));
+            return new String(results);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main(String[] args) throws Exception {

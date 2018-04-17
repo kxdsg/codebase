@@ -1,6 +1,7 @@
 package com.argus.proxy.cglib;
 
 import com.argus.proxy.Calculator;
+import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -13,6 +14,14 @@ import java.lang.reflect.Method;
  *
  */
 public class DaoProxy implements MethodInterceptor {
+
+    private Enhancer enhancer = new Enhancer();
+
+    public Object getProxy(Class clazz){
+        enhancer.setSuperclass(clazz);
+        enhancer.setCallback(this);
+        return enhancer.create();
+    }
 
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy proxy) throws Throwable {

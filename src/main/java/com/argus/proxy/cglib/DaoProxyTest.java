@@ -11,11 +11,12 @@ public class DaoProxyTest {
     public static void main(String[] args) {
         DaoProxy daoProxy = new DaoProxy();
 
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(DaoImpl.class);
-        enhancer.setCallback(daoProxy);
+//        Enhancer enhancer = new Enhancer();
+//        enhancer.setSuperclass(DaoImpl.class);
+//        enhancer.setCallback(daoProxy);
+//        Dao dao = (DaoImpl)enhancer.create();
 
-        Dao dao = (DaoImpl)enhancer.create();
+        Dao dao = (DaoImpl)daoProxy.getProxy(DaoImpl.class);
         dao.insert();
 
     }
