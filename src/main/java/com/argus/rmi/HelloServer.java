@@ -11,6 +11,7 @@ public class HelloServer {
 
     public static void main(String[] args) {
         try {
+            //实现实例
             IHello rhello = new IHelloImpl();
 
             //本地主机上的远程对象注册表Registry的实例，并指定端口为8888

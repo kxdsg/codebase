@@ -12,6 +12,11 @@ public class SocketServer {
 
     public static void main(String[] args) throws Exception{
         int port = 55533;
+        /*
+        ServerSocket主要用于实现服务端端口的监听及Socket对象的获取
+        为了满足服务端能同时接受多个连接发送的请求，通常采用的方法是在accept获取Socket之后，
+        将Socket放到一个线程中处理，通常称为一连接一线程。
+         */
         ServerSocket server = new ServerSocket(port);
 
         // server将一直等待连接的到来
