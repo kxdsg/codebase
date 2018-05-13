@@ -62,6 +62,10 @@ public class FastJsonTest {
         String jsonStr = "{\"errCode\":\"000000\",\"msg\":\"success\",\"data\":{\"certificateNo\":\"1234213\",\"name\":\"李逵\",\"organization\":\"会计师事务所有限公司\",\"approvalNo\":\"协字（1998）84号\",\"approvalDate\":\"1998-11-30\",\"approach\":\"考试\",\"lastAnnualDate\":\"2007-04-30\",\"list\":[{\"orgName\":\"会计师事务所有限公司\",\"certificateNo\":\"41210069\",\"punishType\":\"11\",\"punishDate\":\"\"}]}}";
         //获取errCode
         JSONObject rootObj = JSON.parseObject(jsonStr);
+        //将json字符串转换成person对象
+//        Person person = JSON.parseObject(jsonStr, Person.class);
+        //将json字符串转换成person对象
+//        List<Person> personList = JSON.parseArray(jsonStr,Person.class);
         System.out.println(rootObj.get("errCode"));
         //获取certificateNo
         JSONObject dataObj = rootObj.getJSONObject("data");

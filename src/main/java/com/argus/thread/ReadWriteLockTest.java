@@ -11,75 +11,74 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @date 2017/8/19.
  */
 public class ReadWriteLockTest {
-    private static Lock lock = new ReentrantLock();
-    private static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    private static Lock readLock = readWriteLock.readLock();
-    private static Lock writeLock = readWriteLock.writeLock();
 
-    private int value;
-
-    public Object handleRead(Lock lock) throws InterruptedException{
-        try {
-            lock.lock();
-            TimeUnit.MILLISECONDS.sleep(1000);
-            return value;
-        }  finally {
-            lock.unlock();
-        }
+    public static void main(String[] args) {
+        new ReadWriteLockTest().test();
     }
 
-    public void handleWrite(Lock lock, int index) throws InterruptedException{
-        try {
-            lock.lock();
-            TimeUnit.MILLISECONDS.sleep(1000);
-            value = index;
-        } finally {
-            lock.unlock();
-        }
-    }
 
-    public static void main(String[] args) throws Exception {
-        ReadWriteLockTest rw = new ReadWriteLockTest();
-        Runnable readRunnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    rw.handleRead(readLock);
-//                    rw.handleRead(lock);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+    private void test(){
+        Queue queue = new Queue();
+        for(int i=0;i<3;i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(true) {
+                        queue.get();
+                    }
                 }
-            }
-        };
+            }).start();
+        }
+        for(int i=0;i<3;i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(true) {
+                        queue.put(new Random().nextInt(1000));
+                    }
 
-        Runnable writeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    rw.handleWrite(writeLock, new Random().nextInt());
-//                    rw.handleWrite(lock, new Random().nextInt());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-        long start = System.currentTimeMillis();
-
-        for (int i = 0;i<18;i++){
-            Thread t = new Thread(readRunnable);
-            t.start();
-            t.join();
+            }).start();
         }
-
-        for(int i=18;i<20;i++){
-            Thread t = new Thread(writeRunnable);
-            t.start();
-            t.join();
-        }
-
-        System.out.println("cost: " + (System.currentTimeMillis()-start));
-
     }
+
+    class Queue {
+        private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+        private Lock readLock = readWriteLock.readLock();
+        private Lock writeLock = readWriteLock.writeLock();
+
+        private Object data = null; //共享数据，只能有一个线程能写该数据，但可以有多个线程同时读取数据
+
+        public void get(){
+            readLock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName() + " be ready to read data!");
+                Thread.sleep((long)Math.random()*1000);
+                System.out.println(Thread.currentThread().getName() + " read data : " + data);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally{
+                readLock.unlock();
+            }
+
+        }
+
+        public void put(Object data){
+            writeLock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName() + " be ready to write data!");
+                Thread.sleep((long)Math.random()*1000);
+                this.data = data;
+                System.out.println(Thread.currentThread().getName() + " write data : " + data);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                writeLock.unlock();
+            }
+
+        }
+    }
+
 
 
 }

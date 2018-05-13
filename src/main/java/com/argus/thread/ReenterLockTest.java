@@ -31,6 +31,7 @@ public class ReenterLockTest{
                 try{
                     i++;
                 }finally {
+                    //释放锁要写在finally里面
                     lock.unlock();
                 }
             }
