@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,11 +53,30 @@ public class FastJsonTest {
      */
     public static void main(String[] args) {
 
+
+        String testStr = "{\"targetCode\": \"DEPT16\",\"jobName\": \"ad\",\"remark\": \"a's'd\",\"jobId\": \"eb4941c5b230eecd0b7b6239f484ac5e\",\"files\": [{\"name\": \"echarts.min.js\",\"path\": \"/Users/data/http/client/upload/000000/eb4941c5b230eecd0b7b6239f484ac5e/echarts.min.js\"}, {\"name\": \"IMG_4265.JPG\",\"path\": \"/Users/data/http/client/upload/000000/eb4941c5b230eecd0b7b6239f484ac5e/IMG_4265.JPG\"}]}";
+
+
+        Temp temp = JSON.parseObject(testStr, Temp.class);
+
+        System.out.println(temp.getJobName());
+
+        TempInfo ti = new TempInfo();
+        ti.setName("kk");
+        ti.setAge(33);
+        ti.setEntryDate(new Date());
+        String jsonResult = JSON.toJSONStringWithDateFormat(ti,"yyyy-MM-dd");
+        System.out.println("jsonResult: " + jsonResult);
+
+        TempInfo t2 = JSON.parseObject(jsonResult,TempInfo.class);
+        System.out.println(t2.toString());
+
         //map to josn
         Map<String,Object> map = new HashMap<>();
         map.put("name","kang");
         map.put("age",100);
-        System.out.println(JSON.toJSONString(map));
+        map.put("entryDate",new Date());
+        System.out.println(JSON.toJSONStringWithDateFormat(map,"yyyy-MM-dd"));
 
         //parse json string
         String jsonStr = "{\"errCode\":\"000000\",\"msg\":\"success\",\"data\":{\"certificateNo\":\"1234213\",\"name\":\"李逵\",\"organization\":\"会计师事务所有限公司\",\"approvalNo\":\"协字（1998）84号\",\"approvalDate\":\"1998-11-30\",\"approach\":\"考试\",\"lastAnnualDate\":\"2007-04-30\",\"list\":[{\"orgName\":\"会计师事务所有限公司\",\"certificateNo\":\"41210069\",\"punishType\":\"11\",\"punishDate\":\"\"}]}}";
@@ -79,5 +99,6 @@ public class FastJsonTest {
             System.out.println(itemObj.get("orgName"));
         }
     }
+
 
 }

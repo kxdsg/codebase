@@ -1,6 +1,9 @@
 package com.argus.encypt;
 
-import org.apache.xerces.impl.dv.util.Base64;
+import org.apache.xml.security.utils.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,6 +13,8 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by xingding on 2016/10/31.
  */
 public class TripleDESUtil {
+
+    public static final Logger logger = LoggerFactory.getLogger(TripleDESUtil.class);
 
     private static final String Algorithm = "DESede"; //算法名称
     // 算法名称/加密模式/填充方式
@@ -23,9 +28,14 @@ public class TripleDESUtil {
      * @return
      * @throws Exception
      */
-    public static String decrypt3DES(String value) throws Exception {
-        byte[] b = decryptMode(getKeyBytes(key), Base64.decode(value));
-        return new String(b);
+    public static String decrypt3DES(String value) {
+        try {
+            byte[] b = decryptMode(getKeyBytes(key), Base64.decode(value));
+            return new String(b);
+        } catch (Exception e) {
+            logger.error("解密失败！",e.getMessage());
+        }
+        return value;
     }
 
     /**
@@ -34,9 +44,14 @@ public class TripleDESUtil {
      * @return
      * @throws Exception
      */
-    public static String encrypt3DES(String value) throws Exception {
-        String str = byte2Base64(encryptMode(getKeyBytes(key), value.getBytes()));
-        return str;
+    public static String encrypt3DES(String value){
+        try {
+            String str = byte2Base64(encryptMode(getKeyBytes(key), value.getBytes()));
+            return str;
+        } catch (Exception e) {
+            logger.error("加密失败！",e.getMessage());
+        }
+        return value;
     }
 
     /**
@@ -68,20 +83,11 @@ public class TripleDESUtil {
      * @param src 为被加密的数据缓冲区（源）
      * @return
      */
-    public static byte[] encryptMode(byte[] keybyte, byte[] src) {
-        try {
-            SecretKey deskey = new SecretKeySpec(keybyte, Algorithm);
-            Cipher c1 = Cipher.getInstance(CIPHER_ALGORITHM_ECB);
-            c1.init(Cipher.ENCRYPT_MODE, deskey);
-            return c1.doFinal(src);
-        } catch (java.security.NoSuchAlgorithmException e1) {
-            e1.printStackTrace();
-        } catch (javax.crypto.NoSuchPaddingException e2) {
-            e2.printStackTrace();
-        } catch (java.lang.Exception e3) {
-            e3.printStackTrace();
-        }
-        return null;
+    public static byte[] encryptMode(byte[] keybyte, byte[] src) throws Exception {
+        SecretKey deskey = new SecretKeySpec(keybyte, Algorithm);
+        Cipher c1 = Cipher.getInstance(CIPHER_ALGORITHM_ECB);
+        c1.init(Cipher.ENCRYPT_MODE, deskey);
+        return c1.doFinal(src);
     }
 
     /**
@@ -90,20 +96,11 @@ public class TripleDESUtil {
      * @param src 为加密后的缓冲区
      * @return
      */
-    public static byte[] decryptMode(byte[] keybyte, byte[] src) {
-        try {
-            SecretKey deskey = new SecretKeySpec(keybyte, Algorithm);
-            Cipher c1 = Cipher.getInstance(CIPHER_ALGORITHM_ECB);
-            c1.init(Cipher.DECRYPT_MODE, deskey);
-            return c1.doFinal(src);
-        } catch (java.security.NoSuchAlgorithmException e1) {
-            e1.printStackTrace();
-        } catch (javax.crypto.NoSuchPaddingException e2) {
-            e2.printStackTrace();
-        } catch (java.lang.Exception e3) {
-            e3.printStackTrace();
-        }
-        return null;
+    public static byte[] decryptMode(byte[] keybyte, byte[] src) throws Exception {
+        SecretKey deskey = new SecretKeySpec(keybyte, Algorithm);
+        Cipher c1 = Cipher.getInstance(CIPHER_ALGORITHM_ECB);
+        c1.init(Cipher.DECRYPT_MODE, deskey);
+        return c1.doFinal(src);
     }
 
     /**
@@ -137,7 +134,7 @@ public class TripleDESUtil {
 
     public static void main(String[] args) throws Exception {
 
-        String name = "{\"username\":\"usera\",\"channel\":\"shuchuang\"}"; //原始字符串
+        String name = "123456"; //原始字符串
         String encodeStr = encrypt3DES(name);
         System.out.println("加密之后的字符串：" + encodeStr);
         String decodeStr = decrypt3DES(encodeStr);
