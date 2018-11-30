@@ -1189,14 +1189,23 @@ public class FileUtil {
 		
 //		FileUtil.detectFiles("D:\\workspace");
 
-		PrintWriter pw = new PrintWriter(new File("d:\\test\\hello.txt"));
-		for(int i = 0;i<100000;i++){
-			pw.write("hello, i am test message " + i + "\n");
-		}
-		pw.flush();
-		pw.close();
+//		PrintWriter pw = new PrintWriter(new File("d:\\test\\hello.txt"));
+//		for(int i = 0;i<100000;i++){
+//			pw.write("hello, i am test message " + i + "\n");
+//		}
+//		pw.flush();
+//		pw.close();
 
-
+		File file = new File("/Users/xingding/Downloads/abc.txt");
+		System.out.println(file.length());
+		System.out.println("Byte: " + Byte.SIZE);
+		System.out.println("Short: " + Short.SIZE);
+		System.out.println("Character: " + Character.SIZE);
+		System.out.println("Integer: " + Integer.SIZE);
+		System.out.println("Float: " + Float.SIZE);
+		System.out.println("Long: " + Long.SIZE);
+		System.out.println("Double: " + Double.SIZE);
+		System.out.println("Boolean: " + Boolean.toString(false));
 
 	}
 	

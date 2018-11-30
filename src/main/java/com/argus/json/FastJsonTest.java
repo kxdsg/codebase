@@ -3,6 +3,7 @@ package com.argus.json;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -53,24 +54,6 @@ public class FastJsonTest {
      */
     public static void main(String[] args) {
 
-
-        String testStr = "{\"targetCode\": \"DEPT16\",\"jobName\": \"ad\",\"remark\": \"a's'd\",\"jobId\": \"eb4941c5b230eecd0b7b6239f484ac5e\",\"files\": [{\"name\": \"echarts.min.js\",\"path\": \"/Users/data/http/client/upload/000000/eb4941c5b230eecd0b7b6239f484ac5e/echarts.min.js\"}, {\"name\": \"IMG_4265.JPG\",\"path\": \"/Users/data/http/client/upload/000000/eb4941c5b230eecd0b7b6239f484ac5e/IMG_4265.JPG\"}]}";
-
-
-        Temp temp = JSON.parseObject(testStr, Temp.class);
-
-        System.out.println(temp.getJobName());
-
-        TempInfo ti = new TempInfo();
-        ti.setName("kk");
-        ti.setAge(33);
-        ti.setEntryDate(new Date());
-        String jsonResult = JSON.toJSONStringWithDateFormat(ti,"yyyy-MM-dd");
-        System.out.println("jsonResult: " + jsonResult);
-
-        TempInfo t2 = JSON.parseObject(jsonResult,TempInfo.class);
-        System.out.println(t2.toString());
-
         //map to josn
         Map<String,Object> map = new HashMap<>();
         map.put("name","kang");
@@ -98,6 +81,60 @@ public class FastJsonTest {
             JSONObject itemObj = (JSONObject) list.get(i);
             System.out.println(itemObj.get("orgName"));
         }
+
+
+        /*
+        String jsonStr = "[{\"subColumnId\":684,\"masterColumnId\":665,\"subColumnName\":\"remark\",\"masterColumnName\":\"icon_url\"},{\"subColumnId\":686,\"masterColumnId\":671,\"subColumnName\":\"table_id\",\"masterColumnName\":\"res_desc\"}]";
+        JSONArray jsonArray = JSON.parseArray(jsonStr);
+        StringBuilder sb = new StringBuilder();
+        if(jsonArray!=null && jsonArray.size()>0){
+            for(int i=0;i<jsonArray.size();i++){
+                JSONObject obj = jsonArray.getJSONObject(i);
+                if(obj!=null){
+                    String masterColumnName = obj.getString("masterColumnName");
+                    String subColumnName = obj.getString("subColumnName");
+                    if(!StringUtils.isEmpty(masterColumnName) && !StringUtils.isEmpty(subColumnName)){
+                        sb.append(masterColumnName).append("=").append(subColumnName).append(" and ");
+                    }
+                }
+            }
+        }
+        String s = sb.toString();
+        if(s.endsWith(" and ")){
+            s = s.substring(0,s.lastIndexOf(" and "));
+        }
+        System.out.println(s);
+        */
+
+
+        /*
+        Map map = new HashMap();
+        map.put("account","kxdsg");
+        map.put("password","123456");
+        String json = JSON.toJSONString(map);
+        System.out.println(json);
+        */
+
+
+        String jsonVal = "[\"a\",\"b\",\"c\"]";
+        JSONArray array = JSON.parseArray(jsonVal);
+        System.out.println(array);
+        for(int i=0;i<array.size();i++){
+            if("a".equalsIgnoreCase(array.getString(i))){
+                System.out.println("match");
+            }
+        }
+
+
+        String resultJson = "{\n" +
+                "    \"code\": \"000000\",\n" +
+                "    \"message\": null,\n" +
+                "    \"result\": \"data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACA0lEQVQ4T62U0Y3TcAzGPzsnEAia\\nbEBGSJUOUB4hReoIYQKywYUJriMcG/QEgcfrvTdqRwgbJKXAgYiNnF6kHG2jgvg/VXL9s2P7+wj/\\n+dHH5WYqkDct13Eevn4xfFT8ax26Xqm3xTYwAItMAZRR6KZdYJZv4igcXJ5ShLp/er/6MuZakmjk\\nGrh5H/IqATQmwFPl88lo8K4PfA+4A5TrSeg1HVv336RaP2Y3uMWtV9c/UyL1hZ301fDp4hC4F5jl\\n1UyBYhK6szY5W20DyK+ZKvTQvPeA2bKaA/pMgZKIxqp6sBMQAgJ53TgR3ewD8ypVha8O7y2Baomb\\nTkkDgC4JuBDm53cLHTehP+dgi7HEycjdJXdelld329exzZFFrqPQbRi7GBV7QFvEV6kW7WJOBi6r\\nuTg82wM21ZZlGY087+86LIso9PzDwLxcgM+SaPhkfXKHeS+wSklp/XI0mJ8CbAQhdRqF3vhIh5sY\\nkHNV3NM0EXwroIBHFiMK7GxMRSC6MskeBFqSVe2cgwrzTbdbFvXtXgH6LExFq5yjwEaGy8pubbcc\\nQhGFbmI/P62++yI/FnaLpnPw2bSddz+wo+vu5u3mTEkmSbM/JQ1ah+oFZnlZgLnxShV5295mAzEH\\nYr5QqRMQX7X21gu0TzOHMaDjPEi7xmseCUisoHnXPHqBfb53LPYbPe4rk1TBXRgAAAAASUVORK5C\\nYII=\",\n" +
+                "    \"status\": \"OK\"\n" +
+                "}";
+        JSONObject object = JSON.parseObject(resultJson);
+        System.out.println(object.getString("result"));
+
     }
 
 
