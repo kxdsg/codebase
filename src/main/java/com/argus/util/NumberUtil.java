@@ -1,5 +1,7 @@
 package com.argus.util;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * author: xingding
@@ -8,6 +10,7 @@ package com.argus.util;
  * 
  */
 public class NumberUtil {
+
 
     public static boolean isInteger( String value )
     {
@@ -27,6 +30,17 @@ public class NumberUtil {
         } catch ( NumberFormatException e ) {
             return false;
         }
+    }
+
+    public static String getPercent(long a, long b)
+    {
+        String percent = "";
+        double fa = a * 1.0D;
+        double fb = b * 1.0D;
+        double fp = fa / fb;
+        DecimalFormat df = new DecimalFormat("##.00%");
+        percent = df.format(fp);
+        return percent;
     }
 
 }
