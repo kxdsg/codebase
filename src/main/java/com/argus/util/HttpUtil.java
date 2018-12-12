@@ -123,97 +123,10 @@ public class HttpUtil {
      * @param params 参数map
      * @return HttpResponse对象
      */
-    public static String doPost(String apiUrl, Map<String, Object> params) {
-        String result = "";
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = getHttpClient();
-        HttpPost httpPost = new HttpPost(apiUrl);
-        httpPost.setConfig(requestConfig);
-        List<NameValuePair> pairList = new ArrayList<NameValuePair>(params.size());
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            if(entry.getValue() != null && !"".equals(entry.getValue())){
-                NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
-                pairList.add(pair);
-            }
-        }
-        httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("UTF-8")));
-        try {
-            response = httpClient.execute(httpPost);
-            int statusCode = response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            result = EntityUtils.toString(entity, "UTF-8");
-            if(statusCode != HttpStatus.SC_OK){
-                throw new ServiceRuntimeException(Constants.RTN_CODE_ERROR, Constants.RTN_MESSAGE_ERROR);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new ServiceRuntimeException(Constants.RTN_CODE_ERROR, Constants.RTN_MESSAGE_ERROR);
-        } finally {
-            if (response != null) {
-                try {
-                    EntityUtils.consume(response.getEntity());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
+    public static Object doPost(String apiUrl, Map<String, Object> params) {
+        return doPost(apiUrl,params,null);
     }
 
-    /**
-     * POST请求
-     * Content Type: application/json
-     * 1. 接收json参数
-     * 2. 可传入header参数
-     * @param apiUrl
-     * @param jsonStr
-     * @return
-     */
-    public static Object doPost(String apiUrl, String jsonStr,Map<String,Object> header) {
-        String result = "";
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = getHttpClient();
-        HttpPost httpPost = new HttpPost(apiUrl);
-        httpPost.setConfig(requestConfig);
-        StringEntity req = new StringEntity(jsonStr,"utf-8");//解决中文乱码问题
-        req.setContentEncoding("UTF-8");
-        req.setContentType("application/json");
-        httpPost.setEntity(req);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        //设置header参数
-        if(header!=null){
-            Iterator<String> iter=header.keySet().iterator();
-            while(iter.hasNext()){
-                String key=iter.next();
-                httpPost.setHeader(key,header.get(key)==null?"":header.get(key).toString());
-            }
-        }
-
-        try {
-            response = httpClient.execute(httpPost);
-            int statusCode = response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            result = EntityUtils.toString(entity, "UTF-8");
-            System.out.println("http response is "+result);
-            if(statusCode != HttpStatus.SC_OK){
-                throw new ServiceRuntimeException(Constants.RTN_CODE_ERROR, Constants.RTN_MESSAGE_ERROR);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new ServiceRuntimeException(Constants.RTN_CODE_ERROR, Constants.RTN_MESSAGE_ERROR);
-        } finally {
-            if (response != null) {
-                try {
-                    EntityUtils.consume(response.getEntity());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
-    }
     /**
      * GET请求 url为请求的路径 带header参数
      * @param url 请求路径
@@ -471,7 +384,7 @@ public class HttpUtil {
         return new String(bos.toByteArray(), encoding);
     }
 
-    public static void post(String url,String json){
+    public static String post(String url,String json){
         try {
             URL u = new URL(url);
             URLConnection uc = u.openConnection();
@@ -492,11 +405,12 @@ public class HttpUtil {
             int i;
             while (( i=in.read(b))!=-1) bos.write(b, 0, i);
             in.close();
-            System.out.println(new String(bos.toByteArray(),"utf-8"));
+            return new String(bos.toByteArray(),"utf-8");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static String get(String httpUrl, String httpArg){
