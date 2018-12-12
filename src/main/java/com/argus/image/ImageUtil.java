@@ -99,7 +99,7 @@ public class ImageUtil {
                 "xbogJW6slxKSxK64pPQfE8Gv/j9wPXkmoeK5XRru0s18RFzJw6mLuThy9pHUijmqFPLfmwlvqRXpAEQM1rmaiBF4POfvYuSisuO/rzPiUsOx5vgY/CPHW/gnGZqIQTnwn2Hcy7iMDacsUVic9481sJcMFxeXeba2tjbm5ubjBg0aNLh79+49OnTo0L5Zs2bN69WrV79WrVq1P/roo4+rVatW5d13333n\n" +
                 "rbfe+m+Z/yHzX98yHf8i899l/leVKlX+9+233/7re++990GNGjVq1q1bt07Tpk0bt2vXrs3PMvr3799v1KhRo6fIcJLh6em5eJ2M3TJCZETJSEhIuJsjA/+Eg4blLJGRJuOmjPMyDsvYJsNbxsKFC93s7OzsJ02aNHHo0KHDevXq1Vv2vWPr1q1bNpTxpQzZ+0+qVq36/v/JkH39H5n/KfPfyvbaeN/5\n" +
                 "2V94zTvvvPOu7H+1mjVr1vh/4FETIYyLnYcAAAAASUVORK5CYII=";
-        ImageUtil.decodeImage(imgStr, "d:\\test\\dest.jpg");
+        ImageUtil.decodeImage(imgStr, "/Users/xingding/testdata/img/dest.jpg");
 
 
     }

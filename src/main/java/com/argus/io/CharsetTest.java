@@ -20,7 +20,7 @@ public class CharsetTest {
      * IO流中的编码
      */
     private void testFileIO(){
-        String file = "D:\\test\\stream.txt";
+        String file = "/Users/xingding/testdata/files/stream.txt";
         String charset = "UTF-8";
         try {
             //文件字节流

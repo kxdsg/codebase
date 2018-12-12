@@ -15,6 +15,9 @@ public class NoClassDefErrDemo {
 
         for(int i=0; i<2; i++){
             try{
+                /*
+                模拟类初始化失败，导致抛出NoClassDefFoundError异常
+                 */
                 users.add(new User(String.valueOf(i))); //will throw NoClassDefFoundError
             }catch(Throwable t){
                 t.printStackTrace();

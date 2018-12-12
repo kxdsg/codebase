@@ -24,16 +24,15 @@ import org.apache.commons.io.FileUtils;
 
 import com.argus.util.DateUtil;
 import com.argus.util.ExecUtil;
-import com.argus.util.LoggerUtil;
-import com.argus.util.StringUtil;
-import com.thoughtworks.xstream.XStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Common File Util
  */
 public class FileUtil {
 
-	private static LoggerUtil logger = LoggerUtil.getInstance(FileUtil.class);
+	private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	private static final String TAB = "\t";
 	private static final String digFileTypes = "^.+\\.(jpg|jpeg|png|log|tmp|avi|rmvb|mkv|wmv|torrent|xml|mp3|mp4)$";
 	private static final String excludedFiles = "^(?!.*?(.dll|.DLL|.crx|.json|.pak|.nexe|.itxib|.db|.dat|.datx|.psg|.ksg|.fsg|.vsg)).*";
@@ -891,12 +890,8 @@ public class FileUtil {
 		try {
 			prop.store(new FileOutputStream(propFileLocation), "Created on "
 					+ new Date());
-		} catch (FileNotFoundException e) {
-			logger.error(e, new Object[] { "prop file [", propFileLocation,
-					"] cannot be found" });
-		} catch (IOException e) {
-			logger.error(e, new Object[] { "prop file [", propFileLocation,
-					"] cannot be saved" });
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -906,22 +901,15 @@ public class FileUtil {
 		try {
 			fis = new FileInputStream(propFileLocation);
 			prop.load(fis);
-		} catch (FileNotFoundException e) {
-			logger.error(e, new Object[] { "prop file [", propFileLocation,
-					"] cannot be found" });
-
-		} catch (IOException e) {
-			logger.error(e, new Object[] { " Error loading prop file [",
-					propFileLocation, "]" });
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 
 		} finally {
 			if (fis != null)
 				try {
 					fis.close();
 				} catch (IOException e) {
-					logger.error(e, new Object[] {
-							" Error closing stream for prop file [",
-							propFileLocation, "]" });
+					logger.error("close stream fail!");
 				}
 		}
 		return prop;
@@ -929,7 +917,6 @@ public class FileUtil {
 
 	public static void saveFile(String filePath, byte[] fileContent)
 			throws IOException {
-		logger.debug(new Object[] { "Saving File[", filePath, "]" });
 		File file = new File(filePath);
 		File dirFile = new File(getFileDir(file.getAbsolutePath()));
 		if (!(dirFile.exists()))
@@ -944,9 +931,6 @@ public class FileUtil {
 			if (fos != null)
 				fos.close();
 		}
-
-		logger.debug(new Object[] { "Saved File[", filePath, "]",
-				Integer.valueOf(fileContent.length) });
 	}
 
 	public static String delFile(String fileLocation) {
@@ -956,9 +940,7 @@ public class FileUtil {
 			ExecUtil.execCommand("c:\\temp\\rmFile.cmd");
 			return "";
 		} catch (IOException e) {
-			logger.error(new Object[] {
-					"Unable to save delete command file to execute the following command [",
-					removeDirCommand, "]" });
+			logger.error(e.getMessage());
 		}
 		return "Unable to save delete command file to execute the following command ["
 				+ removeDirCommand + "]";
@@ -980,9 +962,7 @@ public class FileUtil {
 
 			return "";
 		} catch (IOException e) {
-			logger.error(new Object[] {
-					"Unable to save delete command file to execute the following command [",
-					removeDirCommand, "]" });
+			logger.error(e.getMessage());
 		}
 		return "Unable to save delete command file to execute the following command ["
 				+ removeDirCommand + "]";
@@ -1010,31 +990,27 @@ public class FileUtil {
 		} catch (FileNotFoundException e) {
 			return e + "[" + srcFile + "] srcFile is missing";
 		} catch (IOException e) {
-			logger.error(e, new Object[] { "[", srcFile,
-					"] Error reading src File" });
+			logger.error(e.getMessage());
 			return e + "[" + destFile + "] Error closing output stream";
 		} finally {
 			if (fos != null)
 				try {
 					fos.close();
 				} catch (IOException e) {
-					logger.error(e, new Object[] { "[", destFile,
-							"] Error closing output stream" });
+					logger.error("close FileOutputStream fail!");
 				}
 
 			if (bis != null)
 				try {
 					bis.close();
 				} catch (IOException e) {
-					logger.error(e, new Object[] { "[", srcFile,
-							"] Error closing src stream " });
+					logger.error("close BufferedInputStream fail!");
 				}
 		}
 	}
 
 	public static byte[] readFileWithStringParam(String filePath)
 			throws IOException {
-		logger.debug(new Object[] { "Opening File[", filePath, "]" });
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
 		try {
@@ -1044,7 +1020,6 @@ public class FileUtil {
 
 			File file = new File(filePath);
 			long fileSize = file.length();
-			logger.debug(new Object[] { "File size", Long.valueOf(fileSize) });
 			byte[] result = new byte[(int) fileSize];
 			int bytesRead = 0;
 			int offset = 0;

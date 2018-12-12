@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
  * Created by xingding on 18/5/18.
  * 根据中文汉字获取拼音首字母
  */
-public class ZNUtil {
+public class CNUtil {
 
     private final static int[] li_SecPosValue = { 1601, 1637, 1833, 2078, 2274,
             2302, 2433, 2594, 2787, 3106, 3212, 3472, 3635, 3722, 3730, 3858,
@@ -86,7 +86,7 @@ public class ZNUtil {
     }
 
     public static void main(String[] args) {
-        ZNUtil cte = new ZNUtil();
+        CNUtil cte = new CNUtil();
         System.out.println("获取拼音首字母："+ cte.getAllFirstLetter("北京联席办"));
     }
 }
