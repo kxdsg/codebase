@@ -52,4 +52,13 @@ public class Student implements Cloneable {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", courses=" + courses +
+                '}';
+    }
 }

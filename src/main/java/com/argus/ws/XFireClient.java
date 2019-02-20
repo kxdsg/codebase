@@ -17,41 +17,36 @@ import java.net.URL;
 
 public class XFireClient {
 
-	public static final String SERVICE_URL = "";
-
 	public static void main(String[] args) {
-		String result = getResult();
-        System.out.println(result);
+		String response = invoke();
+        System.out.println("response:" + response);
+        //解析返回xml,根据接口返回报文编写解析代码
+		/*
+        try {
+            Document doc = DocumentHelper.parseText(response);
+            Element root = doc.getRootElement();//获取根节点
+            Node result = root.selectSingleNode("/root/result");
+            System.out.println(result.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
     }
 		
-	public static String getResult(){
+	public static String invoke(){
 		//参数初始化
         Client client = null;
         Object[] objects = null;
         String resXml = "";//接口返回xml
         //第一个参数必传接口方法名
         try {
-            client = new Client(new URL(SERVICE_URL));
-            objects = client.invoke("methodName1", new Object[]{"param1", "param2"});
+            client = new Client(new URL("http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx?wsdl"));
+            objects = client.invoke("getMobileCodeInfo", new Object[]{"18662494898",""});
             resXml = objects[0].toString();
-            System.out.println(resXml);
         } catch (Exception e) {
         	e.printStackTrace();
         }
-
-        /*
-        解析返回xml
-         */
-        try {
-            Document doc = DocumentHelper.parseText(resXml);
-            Element root = doc.getRootElement();//获取根节点
-            Node result = root.selectSingleNode("/root/result");
-            System.out.println(result.getText());
-            return result.getText();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return resXml;
 	}
 	
 }
